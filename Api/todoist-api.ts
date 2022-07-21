@@ -33,7 +33,12 @@ export type DeleteTodolistResponseType = {
     fieldsErrors: Array<string>
     data: {}
 }
-
+export type ResponseType<D> = {
+    resultCode: number
+    messages: Array<string>
+    fieldsErrors: Array<string>
+    data: D
+}
 
 const instance = axios.create({
     baseURL: 'https://social-network.samuraijs.com/api/1.1/',
@@ -43,13 +48,6 @@ const instance = axios.create({
         'API-KEY': 'd5319fd7-c99a-40ac-b17e-87174e69eee7',
     },
 })
-export type ResponseType<D> = {
-    resultCode: number
-    messages: Array<string>
-    fieldsErrors: Array<string>
-    data: D
-}
-
 
 export const todolistAPI = {
     updateTodolist(todolistId: string, title: string) {
@@ -64,7 +62,7 @@ export const todolistAPI = {
         return promise
     },
     createTodoList(title: string) {
-        const promise = instance.post<ResponseType<{item:TodolistApiType}>>(
+        const promise = instance.post<ResponseType<{ item: TodolistApiType }>>(
             `todo-lists`, {title: title},)
         return promise
     },
